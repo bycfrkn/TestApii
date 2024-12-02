@@ -1,3 +1,8 @@
+# Tüm dosya ve klasörleri dışla
 *
-!obj\Docker\publish\*
-!obj\Docker\empty\
+
+# `obj/Docker/publish` klasöründeki tüm dosyalara izin ver
+!obj/Docker/publish/*
+
+# `obj/Docker/empty` klasörüne izin ver
+!obj/Docker/empty/
