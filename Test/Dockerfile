@@ -1,19 +1,22 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
+# Build aşaması için .NET Framework SDK kullanıyoruz
+FROM mcr.microsoft.com/dotnet/framework/sdk:4.8 AS build-env
 WORKDIR /app
 
-# Proje dosyasını kopyala ve bağımlılıkları yükle
-COPY Test/Test.csproj ./
-RUN dotnet restore
-
-# Kalan dosyaları kopyala ve yayımla
+# Proje dosyasını ve bağımlılıklarını kopyala
 COPY Test/. ./
-RUN dotnet publish -c Release -o out
+RUN nuget restore
 
-# Runtime aşaması
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+# Projeyi derle
+RUN msbuild /p:Configuration=Release /p:OutputPath=out
+
+# Çalıştırma aşaması için .NET Framework ASP.NET imajını kullanıyoruz
+FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8
 WORKDIR /app
+
+# Derlenmiş dosyaları çalışma ortamına kopyala
 COPY --from=build-env /app/out .
 
-ENTRYPOINT ["dotnet", "Test.dll"]
+# IIS üzerinde çalıştır
+
 
 
