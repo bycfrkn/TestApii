@@ -3,7 +3,8 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
 WORKDIR /app
 
 # Proje dosyalarýný kopyala ve baðýmlýlýklarý yükle
-COPY *.csproj .
+COPY Test/*.csproj ./
+
 RUN dotnet restore
 
 # Tüm dosyalarý kopyala ve yayýnla
