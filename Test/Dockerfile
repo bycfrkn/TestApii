@@ -1,19 +1,19 @@
-# Build aşaması
+# Build aÃ¾amasÃ½
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
 WORKDIR /app
 
-# Proje dosyalarını kopyala ve bağımlılıkları yükle
-COPY *.csproj ./
+# Proje dosyalarÃ½nÃ½ kopyala ve baÃ°Ã½mlÃ½lÃ½klarÃ½ yÃ¼kle
+COPY *.csproj .
 RUN dotnet restore
 
-# Tüm dosyaları kopyala ve yayınla
+# TÃ¼m dosyalarÃ½ kopyala ve yayÃ½nla
 COPY . ./
 RUN dotnet publish -c Release -o out
 
-# Runtime aşaması
+# Runtime aÃ¾amasÃ½
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
 WORKDIR /app
 COPY --from=build-env /app/out .
 
-# Çalıştırılacak komut
+# Ã‡alÃ½Ã¾tÃ½rÃ½lacak komut
 ENTRYPOINT ["dotnet", "Test.dll"]
